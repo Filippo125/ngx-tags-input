@@ -19,7 +19,7 @@ const TAGS_INPUT_TEMPLATE = `
             type="text" 
             placeholder="{{ getPlaceHolder() }}"
             name="tags"
-            (keyup.enter)="addTag(tagInput)" (keydown.backspace)="removeLastTag(tagInput)"
+            (keyup)="onKeyUpListener($event,tagInput)" (keydown.backspace)="removeLastTag(tagInput)"
             [disabled]="maximumOfTagsReached()"
             [hidden]="maximumOfTagsReached()"
             #tagInput />
@@ -117,6 +117,12 @@ export class TagsInputComponent implements OnInit, ControlValueAccessor {
             return '';
         }
         return this.placeholder;
+    }
+
+    private onKeyUpListener(event: any,tagInput:HTMLInputElement){
+        if (event.key === "Enter") {
+            this.addTag(tagInput)
+        }
     }
 
     private tagsChanged(type: string, tag: any): void {
